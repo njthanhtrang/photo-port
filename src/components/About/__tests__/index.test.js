@@ -1,12 +1,9 @@
 import React from "react";
-
 // render: Jest creates simulated DOM in a Node.js environment to approximate DOM (no component is actually visibly rendered)
 // cleanup: remove components from the DOM to prevent memory leaking, and variable or data collisions between tests that could corrupt test results
 import { render, cleanup } from "@testing-library/react";
-
 // offers access to custom matchers that are used to test DOM elements
 import '@testing-library/jest-dom/extend-expect';
-
 import About from "..";
 
 // after each test, won't have leftover memory data that could give us false results
