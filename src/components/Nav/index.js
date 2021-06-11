@@ -1,24 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { capitalizeFirstLetter } from "../../utils/helpers";
 
-function Nav() {
-  const categories = [
-    {
-        // key is often parentheses
-      name: "commercial",
-      description:
-        "Photos of grocery stores, food trucks, and other commercial projects",
-    },
-    { name: "portraits", description: "Portraits of people in my life" },
-    { name: "food", description: "Delicious delicacies" },
-    {
-      name: "landscape",
-      description: "Fields, farmhouses, waterfalls, and the beauty of nature",
-    },
-  ];
-
-  function categorySelected(name) {
-      console.log(`${name} clicked`);
-  }
+function Nav(props) {
+  const { categories = [], setCurrentCategory, currentCategory } = props;
+  // callback fx
+  useEffect(() => {
+    document.title = capitalizeFirstLetter(currentCategory.name);
+    // array with single element, direct hook to rerender component on changes to value of this state
+    // if currentCategory changes, component rerenders so change in document.title is visible to user
+  }, [currentCategory]);
 
   return (
     <header>
@@ -33,7 +23,9 @@ function Nav() {
       <nav>
         <ul className="flex-row">
           <li className="mx-2">
-            <a data-testid="about" href="about">About me</a>
+            <a data-testid="about" href="about">
+              About me
+            </a>
           </li>
           <li>
             <span>Contact</span>
@@ -41,9 +33,22 @@ function Nav() {
           {/* when map over anything in JSX, outermost element must have key attribute */}
           {/* and return only a single JSX element */}
           {categories.map((category) => (
-            <li className="mx-1" key={category.name}>
-                {/* callback fx declaration to selectively render, not auto */}
-              <span onClick={() => categorySelected(category.name)} >{category.name}</span>
+            // SHORT CIRCUIT EXPRESSSION
+            // as long as ${currentCategory.name === category.name, navActive will be returned
+            <li
+              className={`mx-1 ${
+                currentCategory.name === category.name && "navActive"
+              }`}
+              key={category.name}
+            >
+              {/* callback fx declaration to selectively render, not auto */}
+              <span
+                onClick={() => {
+                  setCurrentCategory(category);
+                }}
+              >
+                {capitalizeFirstLetter(category.name)}
+              </span>
             </li>
           ))}
         </ul>
