@@ -26,14 +26,15 @@ function App() {
 
   return (
     <div>
-      <Nav>
+      <Nav
         categories={categories}
         setCurrentCategory={setCurrentCategory}
         currentCategory={currentCategory}
-      </Nav>
+        ></Nav>
       <main>
         <div>
-        <Gallery></Gallery>
+          {/* category selected by user, pass from Gallery component */}
+        <Gallery currentCategory={currentCategory}></Gallery>
         <About></About>
         </div>
       </main>

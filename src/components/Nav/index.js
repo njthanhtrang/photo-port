@@ -10,6 +10,8 @@ function Nav(props) {
     // if currentCategory changes, component rerenders so change in document.title is visible to user
   }, [currentCategory]);
 
+  console.log("category", currentCategory);
+  console.log("props", props);
   return (
     <header>
       <h2>
