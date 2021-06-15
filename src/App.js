@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Nav from "./components/Nav";
 import About from "./components/About";
 import Gallery from "./components/Gallery";
+import ContactForm from "./components/Contact";
 import './App.css';
 
 // JSX
@@ -33,6 +34,7 @@ function App() {
         ></Nav>
       <main>
         <div>
+          <ContactForm></ContactForm>
           {/* category selected by user, pass from Gallery component */}
         <Gallery currentCategory={currentCategory}></Gallery>
         <About></About>
