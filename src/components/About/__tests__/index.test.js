@@ -6,7 +6,7 @@ import { render, cleanup } from "@testing-library/react";
 import '@testing-library/jest-dom/extend-expect';
 import About from "..";
 
-// after each test, won't have leftover memory data that could give us false results
+// after each test, release leftover memory data that could give us false results
 afterEach(cleanup);
 
 // declare component we're testing

@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { validateEmail } from "../../utils/helpers";
 
 function ContactForm() {
-  // Hook that manages email error message
-  const [errorMessage, setErrorMessage] = useState("");
-
   // Hook that manages form data
   //   initialize values of state, clear input fields on loading component
   const [formState, setFormState] = useState({
@@ -12,8 +9,25 @@ function ContactForm() {
     email: "",
     message: "",
   });
+
+  // Hook that manages email error message
+  const [errorMessage, setErrorMessage] = useState("");
   // destructure formState obj into its properties
   const { name, email, message } = formState;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    // state only updates if form data passed quality tests(no err message)
+    if (!errorMessage) {
+      //   async setFormState updates formState value for name
+      //   assign input field value to formState.name
+      // spread operator ...formState retains other key-value pairs in obj
+      // e.target.name is name attribute of form element, matches prop names of formState(name, email, message)
+      setFormState({ ...formState, [e.target.name]: e.target.value });
+      console.log("Form", formState);
+    }
+  }
 
   //   sync internal state of component formState with user input from DOM
   // onBlur or onChange event listener ensures this fires everytime keystroke typed into name field
@@ -38,53 +52,39 @@ function ContactForm() {
       }
     }
 
-    // state only updates if form data passed quality tests(no err message)
-    if (!errorMessage) {
-      //   async setFormState updates formState value for name
-      //   assign input field value to formState.name
-      // spread operator ...formState retains other key-value pairs in obj
-      // e.target.name is name attribute of form element, matches prop names of formState(name, email, message)
-      setFormState({ ...formState, [e.target.name]: e.target.value });
-    }
-
     // console.log("errorMessage", errorMessage);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(formState);
   }
 
   // JSX DOM elements
   return (
     <section>
-      <h1>Contact Me</h1>
+      <h1 data-testid="h1tag">Contact Me</h1>
       <form id="contact-form" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
           <input
             type="text"
+            name="name"
             defaultValue={name}
             onBlur={handleChange}
-            name="name"
           />
         </div>
         <div>
           <label htmlFor="email">Email address:</label>
           <input
             type="email"
-            defaultValue={email}
             name="email"
+            defaultValue={email}
             onBlur={handleChange}
           />
         </div>
         <div>
-          <label htmlFor="message">message address:</label>
+          <label htmlFor="message">Message:</label>
           <textarea
             name="message"
+            rows="5"
             defaultValue={message}
             onBlur={handleChange}
-            rows="5"
           />
         </div>
         {/* if(errorMessage) {
@@ -97,7 +97,9 @@ function ContactForm() {
             <p className="error-text">{errorMessage}</p>
           </div>
         )}
-        <button type="submit">Submit</button>
+        <button data-testid="button" type="submit">
+          Submit
+        </button>
       </form>
     </section>
   );
