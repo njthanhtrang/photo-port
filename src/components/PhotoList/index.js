@@ -1,10 +1,12 @@
 // child component of Gallery component handles photo rendering logic
 import React, { useState } from "react";
-// import Modal from "../Modal";
+import Modal from "../Modal";
 
 // props.category passed down from Gallery as currentCategory.name
 // destructure category from props
 const PhotoList = ({ category }) => {
+  const [currentPhoto, setCurrentPhoto] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [photos] = useState([
     {
@@ -123,14 +125,21 @@ const PhotoList = ({ category }) => {
     },
   ]);
 
-//   only photos with selected category appear
-// go through each photo in photos array, find every one matching category selected by user
-// if photo matches, returned in arr, assigned to currentPhotos
-// map currentPhotos array, render each photo that matches category selected by user
+  //   only photos with selected category appear
+  // go through each photo in photos array, find every one matching category selected by user
+  // if photo matches, returned in arr, assigned to currentPhotos
+  // map currentPhotos array, render each photo that matches category selected by user
   const currentPhotos = photos.filter((photo) => photo.category === category);
+
+  const toggleModal = (image, i) => {
+    setCurrentPhoto({ ...image, index: i });
+    setIsModalOpen(true);
+  };
 
   return (
     <div>
+        {/* only renders if isModalOpen is true */}
+      {isModalOpen && <Modal currentPhoto={currentPhoto} />}
       <div className="flex-row">
         {currentPhotos.map((image, i) => (
           <img
@@ -138,6 +147,7 @@ const PhotoList = ({ category }) => {
             src={`./img/small/${image.category}/${i}.jpg`}
             alt={image.name}
             className="img-thumbnail mx-1"
+            onClick={() => toggleModal(image, i)}
             // NEED key value, a unique string
             key={image.name}
           />
