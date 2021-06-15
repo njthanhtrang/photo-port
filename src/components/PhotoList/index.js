@@ -138,7 +138,7 @@ const PhotoList = ({ category }) => {
 
   return (
     <div>
-        {/* only renders if isModalOpen is true */}
+        {/* only renders if isModalOpen is true, Modal changes state isModalOpen using closures */}
       {isModalOpen && (
       <Modal currentPhoto={currentPhoto} onClose={toggleModal} />
       )}
